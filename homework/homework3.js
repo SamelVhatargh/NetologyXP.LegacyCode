@@ -1,11 +1,20 @@
-function someTestAlert() {
-    //
+function someTestAlert(message) {
+    console.log(message);
+}
+
+function printHighScore(response) {
+    console.log('High score', response);
+}
+
+function testPrintHighScore(response) {
+    console.log('Test High score', response);
 }
 
 player.showHighScoreList = function(pageToken, isTestMode) {
     isTestMode = isTestMode || false;
     if (isTestMode) {
         var alert = someTestAlert;
+        var printHighScore = testPrintHighScore;
     }
     document.querySelector('#highScoreListDiv').innerHTML = '';
     document.querySelector('#highScoreListDiv').style.display = 'block';
@@ -19,7 +28,7 @@ player.showHighScoreList = function(pageToken, isTestMode) {
             maxResults: '10'});
     request.execute(
         function(response) {
-            console.log('High score', response);
+            printHighScore(response);
             if (response.error) {
                 alert('Error ' + response.error.code + ': ' + response.message);
                 return;
