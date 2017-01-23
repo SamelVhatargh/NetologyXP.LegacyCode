@@ -1,22 +1,49 @@
-function formSetEditReport(idReport) {
+function createTestReportToggler()
+{
+    var toggled = false;
+    return {
+        toggle: function (type) {
+            toggled = true;
+        },
+        isToggled: function () {
+            return toggled;
+        }
+    }
+}
+
+function testReportPlugin() {
+    return {
+        type: 'fdf'
+        //другие поля и методы
+    }
+}
+
+function testUpdateReportParametersFunctions() {
+    //какой то метод, которые что-то делает
+}
+
+function formSetEditReport(idReport, _reportPlugin, _toggleReportType, _updateReportParametersFunctions) {
+    _reportPlugin = _reportPlugin || reportPlugin;
+    _toggleReportType = _toggleReportType || toggleReportType;
+    _updateReportParametersFunctions = _updateReportParametersFunctions || _updateReportParametersFunctions;
     var report = {
-        'type': ReportPlugin.defaultReportType,
-        'format': ReportPlugin.defaultReportFormat,
+        'type': _reportPlugin.defaultReportType,
+        'format': _reportPlugin.defaultReportFormat,
         'description': '',
-        'period': ReportPlugin.defaultPeriod,
-        'hour': ReportPlugin.defaultHour,
+        'period': _reportPlugin.defaultPeriod,
+        'hour': _reportPlugin.defaultHour,
         'reports': []
     };
 
     if (idReport > 0) {
-        report = ReportPlugin.reportList[idReport];
-        $('#report_submit').val(ReportPlugin.updateReportString);
+        report = _reportPlugin.reportList[idReport];
+        $('#report_submit').val(_reportPlugin.updateReportString);
     }
     else {
-        $('#report_submit').val(ReportPlugin.createReportString);
+        $('#report_submit').val(_reportPlugin.createReportString);
     }
 
-    toggleReportType(report.type);
+    _toggleReportType(report.type);
 
     $('#report_description').html(report.description);
     $('#report_segment').find('option[value=' + report.idsegment + ']').prop('selected', 'selected');
@@ -32,7 +59,11 @@ function formSetEditReport(idReport) {
         $('.' + report.type + ' [report-unique-id=' + report.reports[key] + ']').prop('checked', 'checked');
     }
 
-    updateReportParametersFunctions[report.type](report.parameters);
+    _updateReportParametersFunctions[report.type](report.parameters);
 
     $('#report_idreport').val(idReport);
 }
+
+//для тестов вызываем как-то так
+var toggler = createTestReportToggler();
+formSetEditReport(1, testReportPlugin(), toggler.toggle, testUpdateReportParametersFunctions());
