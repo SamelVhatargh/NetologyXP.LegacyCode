@@ -1,4 +1,5 @@
-function checkURL() {
+function checkURL(_loadUrl) {
+    _loadUrl = _loadUrl || loadURL;
 
     //get the url by removing the hash
     var url = location.hash.replace(/^#/, '');
@@ -17,7 +18,7 @@ function checkURL() {
         //console.log("page title: " + document.title);
 
         // parse url to jquery
-        loadURL(url + location.search, container);
+        _loadUrl(url + location.search, container);
     } else {
 
         // grab the first URL from nav
