@@ -1,4 +1,12 @@
-player.showHighScoreList = function(pageToken) {
+function someTestAlert() {
+    //
+}
+
+player.showHighScoreList = function(pageToken, isTestMode) {
+    isTestMode = isTestMode || false;
+    if (isTestMode) {
+        var alert = someTestAlert;
+    }
     document.querySelector('#highScoreListDiv').innerHTML = '';
     document.querySelector('#highScoreListDiv').style.display = 'block';
     // Create the request.
